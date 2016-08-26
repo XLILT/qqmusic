@@ -10,7 +10,7 @@ define(['jquery'], function (require) {
 
     //print(messages.getHello());
 
-    function add_song_label(index, name) {
+    function add_song_label(index, songname, singername, duration) {
 
         var songlist__item_div = document.createElement("div");
         songlist__item_div.className += 'songlist__item';
@@ -40,8 +40,8 @@ define(['jquery'], function (require) {
         var js_song_a = document.createElement("a");
         js_song_a.href = 'javascript:;';
         js_song_a.className += 'js_song';
-        js_song_a.title = name;
-        js_song_a.innerHTML = name;
+        js_song_a.title = songname;
+        js_song_a.innerHTML = songname;
 
         songlist__songname_txt_span.className += 'songlist__songname_txt';
         songlist__songname_txt_span.appendChild(js_song_a);
@@ -101,6 +101,24 @@ define(['jquery'], function (require) {
         songlist_songname_div.appendChild(songlist__songname_txt_span);
         songlist_songname_div.appendChild(mod_list_menu_div);
 
+        var singer_name_a = document.createElement("a");
+        singer_name_a.href = 'javascript:;';
+        singer_name_a.title = singername;
+        singer_name_a.innerHTML = singername;
+
+        songlist_artlist_div.className += 'songlist__artist';
+        songlist_artlist_div.appendChild(singer_name_a);
+
+        songlist_time_div.className += 'songlist__time';
+        songlist_time_div.innerHTML = duration;
+
+        songlist__other_div.className += 'songlist__other';
+
+        icon_txt_span.innerHTML = '删除';
+
+        songlist__delete_a.className += 'songlist__delete js_delete';
+        songlist__delete_a.appendChild(icon_txt_span);
+
         songlist__item_div.appendChild(songlist__edit_div);
         songlist__item_div.appendChild(songlist_number_div);
         songlist__item_div.appendChild(songlist_songname_div);
@@ -119,11 +137,12 @@ define(['jquery'], function (require) {
 
     function set_user_songlist(songlist_str) {
         var songlist = JSON.parse(songlist_str);
-        //console.log(songlist);
+        console.log(songlist);
 
         for(var i in songlist) {
-            //console.log(songlist[i]);
-            add_song_label(i, songlist[i]);
+            //console.log(typeof songlist[i]);
+            //var songinfo = JSON.parse(songlist[i]);
+            add_song_label(i, songlist[i]['songname'], songlist[i]['singername'], songlist[i]['duration']);
         }
     }
 
