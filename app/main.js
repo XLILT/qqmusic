@@ -10,6 +10,18 @@ define(['jquery'], function (require) {
 
     //print(messages.getHello());
 
+    function init_event_listener() {
+        //console.log($('.songlist__checkbox'));
+        $('.songlist__edit').click(function() {
+            //console.log($(this).hasClass('songlist__edit--check'));
+            if ($(this).hasClass('songlist__edit--check')) {
+                $(this).removeClass('songlist__edit--check');
+            }else {
+                $(this).addClass('songlist__edit--check');
+            }
+        });
+    }
+
     function add_song_label(index, songname, singername, duration) {
 
         var songlist__item_div = document.createElement('div');
@@ -170,6 +182,7 @@ define(['jquery'], function (require) {
         $.get('get_songlist.php', function(data,status){
             //console.log("Data: " + data + "\nStatus: " + status);
             set_user_songlist(data);
+            init_event_listener();
         });
     }
 
