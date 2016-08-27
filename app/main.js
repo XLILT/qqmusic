@@ -13,12 +13,27 @@ define(['jquery'], function (require) {
     function init_event_listener() {
         //console.log($('.songlist__checkbox'));
         $('.songlist__edit').click(function() {
-            //console.log($(this).hasClass('songlist__edit--check'));
-            if ($(this).hasClass('songlist__edit--check')) {
-                $(this).removeClass('songlist__edit--check');
-            }else {
-                $(this).addClass('songlist__edit--check');
+            //console.log($(this).attr('tagName'));
+            // all checkbox
+            //console.log($('li.songlist__edit'));
+            if ($(this).is('li')) {
+                if ($(this).hasClass('songlist__edit--check')) {
+                    $('.songlist__edit').removeClass('songlist__edit--check');
+                }else {
+                    $('.songlist__edit').addClass('songlist__edit--check');
+                }
+            }else{
+                if ($(this).hasClass('songlist__edit--check')) {
+                    $(this).removeClass('songlist__edit--check');
+                    if ($('li.songlist__edit').hasClass('songlist__edit--check')) {
+                        $('li.songlist__edit').removeClass('songlist__edit--check');
+                    };
+                }else {
+                    $(this).addClass('songlist__edit--check');
+                }
             }
+
+
         });
     }
 
