@@ -146,6 +146,7 @@ define(['jquery'], function (require) {
         songlist_songname_div.appendChild(mod_list_menu_div);
 
         var singer_name_a = document.createElement('a');
+        singer_name_a.className += 'singer_name';
         singer_name_a.href = 'javascript:;';
         singer_name_a.title = singername;
         singer_name_a.innerHTML = singername;
@@ -193,13 +194,51 @@ define(['jquery'], function (require) {
         }
     }
 
-    function init_user_songlist(user_id) {
+    var current_song_index = 0;
+    function play(index) {
+        //console.log($('.js_song')[0].title);
+        var song_src = 'audio/' + $('.singer_name')[index].title + ' - ' + $('.js_song')[index].title +'.mp3';
+        $('#h5audio_media').attr('src', song_src)[0].play();
+    }
+
+    function play_next(model) {
+        if (model == 0) {
+            current_song_index++;
+        };
+
+        if (current_song_index == $('.songlist__item').length) {
+            current_song_index = 0;
+        };
+
+        //console.log('play ' + current_song_index);
+        play(current_song_index);
+    }
+
+    function init_audio_player() {
+        var h5audio_media_audio = document.createElement('audio');
+        h5audio_media_audio.id = 'h5audio_media';
+        h5audio_media_audio.style.height = '0';
+        h5audio_media_audio.style.width = '0';
+
+        document.getElementsByTagName('body')[0].appendChild(h5audio_media_audio);
+
+        $('#h5audio_media')[0].onended = function() {
+            play_next(0);
+        }
+
+        play(0);
+    }
+
+
+
+    function init(user_id) {
         $.get('get_songlist.php', function(data,status){
             //console.log("Data: " + data + "\nStatus: " + status);
             set_user_songlist(data);
             init_event_listener();
+            init_audio_player();
         });
     }
 
-    init_user_songlist(0);
+    init(0);
 });
